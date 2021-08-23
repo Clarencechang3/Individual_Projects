@@ -50,7 +50,7 @@ def test(guess_storage):
         
     if sorted_guess != sorted_key:
         
-        # if (memory_cost == True): #currenty bugged runs forvere/really long 
+        # if (memory_cost == True): #currenty bugged runs regardless of bool value
         #         guess_storage.append(sorted_guess)
         #         print(f'the current guess storage is {guess_storage} (memmoryless)')
         #         test(guess_storage)
