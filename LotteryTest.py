@@ -20,7 +20,7 @@ Lottery_payout = int(input("Winning Amount "))
 Simulations = int(input("Simulations for Efficancy Testing ")) # Amount of simulations to test expected cost
 Average_simulation = int(input("Number of Simulations taken per for total profit ")) # Keeps track of total profit per average simulation
 cost = float(input("Cost Per Ticket ")) # Cost per ticket to test efficancy 
-memory_cost = bool(input("Would you like to not pool? T/F ")) # Adjusts price for multi guessing cost
+memory_cost = str(input("Would you like to not pool? T/F ")) # Adjusts price for multi guessing cost
 
 
 
@@ -50,10 +50,10 @@ def test(guess_storage):
         
     if sorted_guess != sorted_key:
         
-        # if (memory_cost == True): #currenty bugged runs regardless of bool value
-        #         guess_storage.append(sorted_guess)
-        #         print(f'the current guess storage is {guess_storage} (memmoryless)')
-        #         test(guess_storage)
+        if memory_cost == "T": #currenty bugged runs regardless of bool value
+                guess_storage.append(sorted_guess)
+                print(f'the current guess storage is {guess_storage} (memmoryless)')
+                test(guess_storage)
                 
         if sorted_guess not in guess_storage:
                 guess_storage.append(sorted_guess)
