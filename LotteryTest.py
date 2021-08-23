@@ -1,7 +1,8 @@
 # lottery game where number choices are between 1-49; your given a combination of 6 numbers to find
 # your allowed up to 6 numbers for your inital purchase price, and a marginal increase per number 
 # find the expected cost per marginal number (past six ), and the expected cost for the first six 
-#allow the parameters of the game to be adjusted
+# allow the parameters of the game to be adjusted
+# this game is conditioned on memorization of previous guesses - efficient prices are not currently adjusted for such 
 import math
 import random
 import sys 
@@ -17,7 +18,9 @@ choices_l = int(input("Last Number ")) # Second Number (in this case 49)
 numberofcomb = int(input("Number of numbers in a winning combination ")) 
 Lottery_payout = int(input("Winning Amount ")) 
 Simulations = int(input("Simulations for Efficancy Testing ")) # Amount of simulations to test expected cost
-cost = int(input("Cost Per Ticket ")) # Cost per ticket to test efficancy 
+Average_simulation = int(input("Number of Simulations taken per for total profit ")) # Keeps track of total profit per average simulation
+cost = float(input("Cost Per Ticket ")) # Cost per ticket to test efficancy 
+
 
 total_combinations = (math.factorial(choices_l)) / ((math.factorial(numberofcomb) * (math.factorial(choices_l - numberofcomb))))
 
@@ -73,10 +76,14 @@ total_profit = 0
  
 profit_vis = []
 time_vis = []
-counter = count()
+plot_count = 0
+profit_static = []
+
 
 for x in range(1,Simulations + 1 ):
-
+   
+    
+    plot_count += 1 
     
     
     
@@ -92,18 +99,30 @@ for x in range(1,Simulations + 1 ):
          
     profit = (Lottery_payout - cost_sum)
         # print(f' this is the current count {count}, cost_sum {cost_sum}')
-        
-
-    time_vis.append(next(counter))
-    profit_vis.append(profit)
-    plt.plot(time_vis, profit_vis)
-       
-    plt.xlabel(" Time in Intervals of 1")
-    plt.ylabel("Profit in Intervals of 1")
     
     total_profit += profit 
     average_cost = total_profit / Simulations 
+    
+    profit_vis.append(total_profit)
         
+    time_vis.append(plot_count)
+        
+    profit_static.append(average_cost)
+    
+    
+    plt.plot(time_vis, profit_vis, label = "Total Profit")
+    plt.plot(profit_static, label = "Average Profit", linestyle = '-')
+    plt.legend()
+    plt.show()
+ 
+    
+    plt.xlabel("Simulations ")
+    plt.ylabel("Total Profit per simulation ")
+    
+
+    
+        
+ 
         
     if profit > cost:
         print (f' you paid {cost_sum} and made {profit}')
@@ -121,15 +140,5 @@ for x in range(1,Simulations + 1 ):
 
 
 
-# def Visual(data):
-#       global profit 
-# #     time_vis.append(next(counter))
-#       profit_vis.append(profit)
-# #     plt.plot(time_vis, profit_vis)
-#       print (profit_vis)
-# # Visualize = FuncAnimation(plt.gcf(), Visual, interval = 1000)
-    
-    
-# Visual(profit)
-    
+# 
 print (f"There is a total of {total_combinations} combinations, the efficient pricing per number is {price_per},\n a {numberofcomb} digit combination should cost {price_total}, on {Simulations} simulations your total profit is {total_profit}, with an average cost of {average_cost}" )
